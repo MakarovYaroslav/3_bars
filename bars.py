@@ -3,7 +3,7 @@ import json
 
 def load_data(filepath):
     data = []
-    with open(filepath) as data_file:    
+    with open(filepath) as data_file:
         data = json.load(data_file)
     return data
 
@@ -27,14 +27,20 @@ def get_smallest_bar(data):
 
 
 def get_closest_bar(data, longitude, latitude):
-    difference = abs(longitude-data[0]['Cells']['geoData']['coordinates'][0]) + abs(latitude-data[0]['Cells']['geoData']['coordinates'][1])
+    difference = abs(longitude -
+                     data[0]['Cells']['geoData']['coordinates'][0])\
+        + abs(latitude-data[0]['Cells']['geoData']['coordinates'][1])
     closest_bar = data[0]['Cells']['Name']
     for bar in data:
-        if (abs(longitude-bar['Cells']['geoData']['coordinates'][0])+abs(latitude-bar['Cells']['geoData']['coordinates'][1])) < difference:
-            difference = abs(longitude-bar['Cells']['geoData']['coordinates'][0])+abs(latitude-bar['Cells']['geoData']['coordinates'][1])
+        if (abs(longitude - bar['Cells']['geoData']['coordinates'][0]) +
+                abs(latitude -
+                    bar['Cells']['geoData']['coordinates'][1])) < difference:
+            difference = abs(longitude -
+                             bar['Cells']['geoData']['coordinates'][0])\
+                + abs(latitude - bar['Cells']['geoData']['coordinates'][1])
             closest_bar = bar['Cells']['Name']
     return closest_bar
-    
+
 
 if __name__ == '__main__':
     bars_info = load_data('bars.json')
@@ -42,4 +48,5 @@ if __name__ == '__main__':
     print('Самый маленький бар - %s' % get_smallest_bar(bars_info))
     longitude = float(input('Введи свои GPS-координаты (долготу):'))
     latitude = float(input('Введи свои GPS-координаты (широту):'))
-    print('Самый близкий к тебе бар - %s' % get_closest_bar(bars_info, longitude, latitude))
+    print('Самый близкий к тебе бар - %s'
+          % get_closest_bar(bars_info, longitude, latitude))
